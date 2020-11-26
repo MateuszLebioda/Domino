@@ -28,45 +28,48 @@ public class AreaBuilder {
     }
 
     private void addNewDomino(Tuple tuple, Area area, int index) {
-        Tuple tuple1 = area.getNextTuple(tuple);
-        Area tempArea = area.copyArea();
+        Tuple nextTuple = area.getNextTuple(tuple);
 
 
-        if (canAddVerticalDomino(tuple, tempArea)) {
-            System.out.println("dodaje nowe domino pionowo" + tuple.toString());
+        if (canAddVerticalDomino(tuple, area)) {
+            Area tempArea = area.copyArea();
+            //System.out.println("dodaje nowe domino pionowo" + tuple.toString());
             addVerticallyDomino(tuple, tempArea, index);
             index++;
-            if(tempArea.isFull()){
-                areas.add(tempArea);
+            if (tempArea.isFull()) {
+                addArea(tempArea);
             }
             addNewDomino(tuple,tempArea,index);
-        }if(canAddHorizontallyDomino(tuple,tempArea)){
-            System.out.println("dodaje nowe domino poziomo" + tuple.toString());
+        }if(canAddHorizontallyDomino(tuple,area)){
+            Area tempArea = area.copyArea();
+            //System.out.println("dodaje nowe domino poziomo" + tuple.toString());
             addHorizontallyDomino(tuple, tempArea, index);
             index++;
-            if(tempArea.isFull()){
-                areas.add(tempArea);
+            if (tempArea.isFull()) {
+                addArea(tempArea);
             }
-        }if (checkTupleState(tuple1, tempArea) != State.DOESNT_EXIST) {
-            addNewDomino(tuple1, tempArea, index);
+            addNewDomino(tuple,tempArea,index);
+        }
+        if (checkTupleState(nextTuple, area) != State.DOESNT_EXIST) {
+            addNewDomino(nextTuple, area, index);
         }
     }
 
     private boolean canAddVerticalDomino(Tuple tuple, Area area) {
-        return (checkTupleState(tuple, area) == State.EMPTY) && (checkTupleState(getAboveTuple(tuple), area) == State.EMPTY);
+        return (checkTupleState(tuple, area) == State.EMPTY) && (checkTupleState(getBottomTuple(tuple), area) == State.EMPTY);
     }
 
     private void addVerticallyDomino(Tuple tuple, Area area, int index) {
-        area.addDomino(new Domino(tuple, getAboveTuple(tuple), String.valueOf(index)));
+        area.addDomino(new Domino(tuple, getBottomTuple(tuple), String.valueOf(index)));
     }
 
 
     private boolean canAddHorizontallyDomino(Tuple tuple, Area area) {
-        return (checkTupleState(tuple, area) == State.EMPTY) && (checkTupleState(getLeftTuple(tuple), area) == State.EMPTY);
+        return (checkTupleState(tuple, area) == State.EMPTY) && (checkTupleState(getRightTuple(tuple), area) == State.EMPTY);
     }
 
     private void addHorizontallyDomino(Tuple tuple, Area area, int index) {
-        area.addDomino(new Domino(tuple, getLeftTuple(tuple), String.valueOf(index)));
+        area.addDomino(new Domino(tuple, getRightTuple(tuple), String.valueOf(index)));
     }
 
     private State checkTupleState(Tuple tuple, Area area) {
@@ -80,11 +83,23 @@ public class AreaBuilder {
         }
     }
 
-    private Tuple getAboveTuple(Tuple tuple) {
-        return new Tuple(tuple.getX(), tuple.getY() - 1);
+    private Tuple getBottomTuple(Tuple tuple) {
+        return new Tuple(tuple.getX(), tuple.getY() + 1);
     }
 
-    private Tuple getLeftTuple(Tuple tuple) {
-        return new Tuple(tuple.getX() - 1, tuple.getY());
+    private Tuple getRightTuple(Tuple tuple) {
+        return new Tuple(tuple.getX() + 1, tuple.getY());
+    }
+
+    private void addArea(Area area) {
+        boolean add = true;
+        for (Area a : areas) {
+            if (a.isEquals(area)) {
+                add = false;
+            }
+        }
+        if (add) {
+        areas.add(area);
+        }
     }
 }

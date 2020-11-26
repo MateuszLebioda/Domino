@@ -2,11 +2,16 @@ package com.mateusz.lebioda;
 
 import com.mateusz.lebioda.model.Area;
 
+import java.time.LocalTime;
+
+
 public class Main {
 
     public static void main(String[] args) {
-        Area area = new Area(4,4);
-        System.out.println(area.toString());
+        long start = System.currentTimeMillis();
+        int x = 6;
+        int y = 6;
+        Area area = new Area(x,y);
 
         AreaBuilder areaBuilder = new AreaBuilder();
 
@@ -14,7 +19,13 @@ public class Main {
 
         areaBuilder.getAreas().forEach( a -> System.out.println(a.toString()));
 
-        System.out.println(areaBuilder.getAreas().size());
+
+        System.out.println("Pole o wymiarach: " + x + " x " + y);
+        System.out.println("Liczba dostępnych kombinacji: " + areaBuilder.getAreas().size());
+
+        long generationTime = System.currentTimeMillis() - start;
+        LocalTime time = LocalTime.ofSecondOfDay(generationTime/1000);
+        System.out.println("Czas generowania: " + time.toString() + "s");
 
     }
 }

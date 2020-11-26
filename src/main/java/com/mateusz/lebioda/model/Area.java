@@ -35,7 +35,7 @@ public class Area {
 
         for (int y = 0; y < getHeight(); y++) {
             for (int x = 0; x < getWidth(); x++) {
-                area = area.concat(points[x][y] + " ");
+                area = area.concat(points[x][y] + " \t");
             }
             area = area.concat("\n");
         }
@@ -77,5 +77,16 @@ public class Area {
             }
         }
         return newArea;
+    }
+
+    public boolean isEquals(Area area){
+        for (int y = 0; y < getHeight(); y++) {
+            for (int x = 0; x < getWidth(); x++) {
+                if(!area.points[x][y].equals(points[x][y])){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
