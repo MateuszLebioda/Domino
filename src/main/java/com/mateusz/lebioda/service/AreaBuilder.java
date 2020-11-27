@@ -1,4 +1,4 @@
-package com.mateusz.lebioda;
+package com.mateusz.lebioda.service;
 
 import com.mateusz.lebioda.model.Area;
 import com.mateusz.lebioda.model.Domino;
@@ -28,28 +28,24 @@ public class AreaBuilder {
     }
 
     private void addNewDomino(Tuple tuple, Area area, int index) {
-        Tuple nextTuple = area.getNextTuple(tuple);
-
-
         if (canAddVerticalDomino(tuple, area)) {
             Area tempArea = area.copyArea();
-            //System.out.println("dodaje nowe domino pionowo" + tuple.toString());
             addVerticallyDomino(tuple, tempArea, index);
             index++;
             if (tempArea.isFull()) {
                 addArea(tempArea);
             }
-            addNewDomino(tuple,tempArea,index);
+            addNewDomino(area.getNextTuple(tuple),tempArea,index);
         }if(canAddHorizontallyDomino(tuple,area)){
             Area tempArea = area.copyArea();
-            //System.out.println("dodaje nowe domino poziomo" + tuple.toString());
             addHorizontallyDomino(tuple, tempArea, index);
             index++;
             if (tempArea.isFull()) {
                 addArea(tempArea);
             }
-            addNewDomino(tuple,tempArea,index);
+            addNewDomino(area.getNextTuple(tuple),tempArea,index);
         }
+        Tuple nextTuple = area.getNextTuple(tuple);
         if (checkTupleState(nextTuple, area) != State.DOESNT_EXIST) {
             addNewDomino(nextTuple, area, index);
         }
@@ -92,14 +88,14 @@ public class AreaBuilder {
     }
 
     private void addArea(Area area) {
-        boolean add = true;
-        for (Area a : areas) {
-            if (a.isEquals(area)) {
-                add = false;
-            }
-        }
-        if (add) {
+//        boolean add = true;
+//        for (Area a : areas) {
+//            if (a.isEquals(area)) {
+//                add = false;
+//            }
+//        }
+//        if (add) {
         areas.add(area);
-        }
+//        }
     }
 }

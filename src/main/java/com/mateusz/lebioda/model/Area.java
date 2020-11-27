@@ -1,5 +1,6 @@
 package com.mateusz.lebioda.model;
 
+import com.mateusz.lebioda.errors.CannotCreateAreaException;
 import lombok.Getter;
 
 @Getter
@@ -22,6 +23,8 @@ public class Area {
                     this.points[x][y] = "";
                 }
             }
+        }else {
+            throw new CannotCreateAreaException("Nie można stworzyc planszy o podanych wymiarach");
         }
     }
 
