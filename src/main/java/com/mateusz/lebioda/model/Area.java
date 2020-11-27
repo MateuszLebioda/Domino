@@ -11,7 +11,7 @@ public class Area {
     private int height;
 
     public Area(int x, int y) {
-        if (x % 2 == 0 && y % 2 == 0) {
+        if (x % 2 == 0 || y % 2 == 0) {
             this.points = new String[x][y];
             this.width = x;
             this.height = y;

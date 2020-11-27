@@ -31,7 +31,7 @@ public class Main {
             logger.info("{} \n{}", "Uklad numer: " + (++index), a);
         }
 
-        logger.info("Pole o wgit bashymiarach: {} x {}", x, y);
+        logger.info("Pole o wymiarach: {} x {}", x, y);
 
         logger.info("Liczba dostępnych kombinacji: {}", areaBuilder.getAreas().size());
 
